@@ -1,8 +1,8 @@
 import 'package:chattest/styles/text_field_style.dart';
 import 'package:chattest/view_models/display_vm.dart';
-import 'package:chattest/view_models/text_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class MyTextInput extends StatelessWidget {
   final FocusNode myFocus;
@@ -22,7 +22,8 @@ class MyTextInput extends StatelessWidget {
       this.btnBoolean,
       this.myController,
       this.setMyController,
-      this.value);
+      this.value,
+      );
 
   Widget sendBtn(context, vm) {
     return Container(

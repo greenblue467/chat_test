@@ -2,15 +2,62 @@ import 'package:chattest/styles/text_field_style.dart';
 import 'package:chattest/view_models/display_vm.dart';
 import 'package:chattest/view_models/text_vm.dart';
 import 'package:chattest/widgets/my_text_input.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreen extends StatelessWidget {
-  final WebSocketChannel channel = IOWebSocketChannel.connect("wss://echo.websocket.org/");
-  getBoxStyle(bool sender, context) {
+
+  BoxDecoration getBoxStyle(bool sender, context) {
     return sender ? boxStyle1(context) : boxStyle2(context);
+  }
+  getText(text) {
+    String textContent = text.replaceAll("\n", " ").toString();
+    List<String> stringList = textContent.split(' ');
+    int index = stringList.indexWhere(
+      (note) => note.startsWith('http'),
+    );
+    List<String> preString = [];
+    List<String> postString = [];
+    String pre = "";
+    String post = "";
+    if (index != -1) {
+      for (int i = 0; i < index; i++) {
+        preString.add(stringList[i]);
+      }
+      preString.add("\n");
+      pre = preString.join(" ");
+      postString.add("\n");
+      for (int i = index+1 ; i < stringList.length; i++) {
+        postString.add(stringList[i]);
+      }
+      post = postString.join(" ");
+
+      return RichText(
+          text: TextSpan(
+        style: TextStyle(color: Colors.black),
+        children: [
+          TextSpan(text: pre),
+          TextSpan(
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launch(
+                  stringList[index],
+                );
+              },
+            text: stringList[index],
+            style: TextStyle(
+              color: Colors.blue,
+            ),
+          ),
+          TextSpan(text: post),
+        ],
+      ));
+
+    } else {
+      return Text(text);
+    }
   }
 
   @override
@@ -43,12 +90,13 @@ class ChatScreen extends StatelessWidget {
                           ? Alignment.centerLeft
                           : Alignment.centerRight,
                       child: Container(
-                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width/1.6),
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 1.6),
                         margin: EdgeInsets.all(10.0),
                         padding: EdgeInsets.all(10.0),
-                        decoration: getBoxStyle(
-                            vm.messages[index]["sender"], context),
-                        child: Text(
+                        decoration:
+                            getBoxStyle(vm.messages[index]["sender"], context),
+                        child: getText(
                           vm.messages[index]["content"],
                         ),
                       ),
