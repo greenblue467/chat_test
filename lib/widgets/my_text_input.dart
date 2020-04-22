@@ -1,8 +1,8 @@
 import 'package:chattest/styles/text_field_style.dart';
 import 'package:chattest/view_models/display_vm.dart';
+import 'package:chattest/view_models/title_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class MyTextInput extends StatelessWidget {
   final FocusNode myFocus;
@@ -31,6 +31,7 @@ class MyTextInput extends StatelessWidget {
           ? IconButton(
               onPressed: () {
                 vm.setMessages(value, myController.text);
+                titleVM.increment(myController.text);
                 setMyController();
                 setBtnBoolean(false);
                 vm.setScroll(context);

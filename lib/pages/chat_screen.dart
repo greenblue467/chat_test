@@ -1,17 +1,25 @@
+import 'dart:async';
+
 import 'package:chattest/styles/text_field_style.dart';
 import 'package:chattest/view_models/display_vm.dart';
 import 'package:chattest/view_models/text_vm.dart';
+import 'package:chattest/view_models/title_vm.dart';
 import 'package:chattest/widgets/my_text_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
 
+class _ChatScreenState extends State<ChatScreen> {
   BoxDecoration getBoxStyle(bool sender, context) {
     return sender ? boxStyle1(context) : boxStyle2(context);
   }
+
   getText(text) {
     String textContent = text.replaceAll("\n", " ").toString();
     List<String> stringList = textContent.split(' ');
@@ -29,7 +37,7 @@ class ChatScreen extends StatelessWidget {
       preString.add("\n");
       pre = preString.join(" ");
       postString.add("\n");
-      for (int i = index+1 ; i < stringList.length; i++) {
+      for (int i = index + 1; i < stringList.length; i++) {
         postString.add(stringList[i]);
       }
       post = postString.join(" ");
@@ -54,21 +62,40 @@ class ChatScreen extends StatelessWidget {
           TextSpan(text: post),
         ],
       ));
-
     } else {
       return Text(text);
     }
   }
 
+ /* @override
+  void initState() {
+    super.initState();
+    titleVM.initial("");
+  }
+
+  @override
+  void dispose() {
+    titleVM.dispose();
+    super.dispose();
+  }*/
+
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<TextVM>(context, listen: false);
     final vml = Provider.of<TextVM>(context);
+    final vmT = Provider.of<List>(context);
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         elevation: 0.0,
-        title: Text("聊天室"),
+        title: Container(
+          height: 100.0,
+          width: MediaQuery.of(context).size.width,
+          child: ListView.builder(//測試用StreamProvider來改變UI
+            itemCount: vmT.length,
+            itemBuilder: (_, index) => Center(child: Text(vmT[index])),
+          ),
+        ),
         centerTitle: true,
       ),
       body: GestureDetector(
@@ -140,6 +167,10 @@ class ChatScreen extends StatelessWidget {
           ],
         ),
       ),
+      /*floatingActionButton: FloatingActionButton(
+        onPressed: titleVM.increment,
+        child: Icon(Icons.add),
+      ),*/
     );
   }
 }

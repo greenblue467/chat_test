@@ -1,6 +1,7 @@
 import 'package:chattest/pages/chat_screen.dart';
 import 'package:chattest/view_models/display_vm.dart';
 import 'package:chattest/view_models/text_vm.dart';
+import 'package:chattest/view_models/title_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_)=>DisplayVM(),
+        ),
+        StreamProvider<List>(
+          create: (_)=>titleVM.stream,
+          initialData: titleVM.counter,
         ),
       ],
       child: MaterialApp(
