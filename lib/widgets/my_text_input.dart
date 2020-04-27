@@ -1,8 +1,11 @@
 import 'package:chattest/styles/text_field_style.dart';
 import 'package:chattest/view_models/display_vm.dart';
 import 'package:chattest/view_models/title_vm.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class MyTextInput extends StatelessWidget {
   final FocusNode myFocus;
@@ -15,22 +18,91 @@ class MyTextInput extends StatelessWidget {
   final bool value;
 
   MyTextInput(
-      this.myFocus,
-      this.setFocusBoolean,
-      this.focusBoolean,
-      this.setBtnBoolean,
-      this.btnBoolean,
-      this.myController,
-      this.setMyController,
-      this.value,
-      );
+    this.myFocus,
+    this.setFocusBoolean,
+    this.focusBoolean,
+    this.setBtnBoolean,
+    this.btnBoolean,
+    this.myController,
+    this.setMyController,
+    this.value,
+  );
+
+  File _image;
+
+  Future getImage(bool val,vm,context) async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    _image = image;
+    vm.setMessages(
+        2,
+        val,
+        Image.file(
+          _image,
+        ));
+    vm.setScroll(context);
+  }
+
+
+  Future<void> _showDialog(context, vm) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Text('選擇圖片來源'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                SizedBox(
+                  height: 15.0,
+                ),
+                GestureDetector(
+                  child: Text(
+                    '相機',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                  onTap: () {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                GestureDetector(
+                  child: Text(
+                    '圖庫',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    getImage(value,vm,context);
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                '取消',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 20.0,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget sendBtn(context, vm) {
     return Container(
       child: btnBoolean
           ? IconButton(
               onPressed: () {
-                vm.setMessages(value, myController.text);
+                vm.setMessages(1,value, myController.text);
                 titleVM.increment(myController.text);
                 setMyController();
                 setBtnBoolean(false);
@@ -42,7 +114,10 @@ class MyTextInput extends StatelessWidget {
               ),
             )
           : IconButton(
-              onPressed: () {},
+              onPressed: () {
+                _showDialog(context, vm);
+                vm.setScroll(context);
+              },
               icon: Icon(
                 Icons.title,
                 color: Theme.of(context).primaryColor,

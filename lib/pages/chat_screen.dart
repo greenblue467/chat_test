@@ -10,12 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ChatScreen extends StatefulWidget {
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
+class ChatScreen extends StatelessWidget {
   BoxDecoration getBoxStyle(bool sender, context) {
     return sender ? boxStyle1(context) : boxStyle2(context);
   }
@@ -67,7 +62,13 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
- /* @override
+  getImg(content) {
+    return Container(
+      child: content,
+    );
+  }
+
+  /* @override
   void initState() {
     super.initState();
     titleVM.initial("");
@@ -84,6 +85,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final vm = Provider.of<TextVM>(context, listen: false);
     final vml = Provider.of<TextVM>(context);
     final vmT = Provider.of<List>(context);
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -91,9 +93,14 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Container(
           height: 100.0,
           width: MediaQuery.of(context).size.width,
-          child: ListView.builder(//測試用StreamProvider來改變UI
+          child: ListView.builder(
+            //測試用StreamProvider來改變UI
             itemCount: vmT.length,
-            itemBuilder: (_, index) => Center(child: Text(vmT[index])),
+            itemBuilder: (_, index) => Center(
+              child: Text(
+                vmT[index],
+              ),
+            ),
           ),
         ),
         centerTitle: true,
@@ -108,6 +115,35 @@ class _ChatScreenState extends State<ChatScreen> {
             Expanded(
               child: Container(
                 color: Colors.grey[200],
+                /*child: Consumer<DisplayVM>(
+                  builder: (_, vm, __) => ListView(
+                    controller: vm.myScroll,
+                    children: vm.messages
+                        .map(
+                          (content) => Align(
+                            alignment: content["sender"]
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width / 1.6),
+                              margin: EdgeInsets.all(10.0),
+                              padding: EdgeInsets.all(10.0),
+                              decoration:
+                                  getBoxStyle(content["sender"], context),
+                              child: content["type"] == 1
+                                  ? getText(
+                                      content["content"],
+                                    )
+                                  : getImg(content["content"]),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),*/
+
                 child: Consumer<DisplayVM>(
                   builder: (_, vm, __) => ListView.builder(
                     controller: vm.myScroll,
@@ -123,9 +159,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         padding: EdgeInsets.all(10.0),
                         decoration:
                             getBoxStyle(vm.messages[index]["sender"], context),
-                        child: getText(
-                          vm.messages[index]["content"],
-                        ),
+                        child: vm.messages[index]["type"] == 1
+                            ? getText(
+                                vm.messages[index]["content"],
+                              )
+                            : getImg(vm.messages[index]["content"]),
                       ),
                     ),
                   ),
