@@ -5,10 +5,13 @@ import 'package:chattest/view_models/display_vm.dart';
 import 'package:chattest/view_models/text_vm.dart';
 import 'package:chattest/view_models/title_vm.dart';
 import 'package:chattest/widgets/my_text_input.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'next_page.dart';
 
 class ChatScreen extends StatelessWidget {
   BoxDecoration getBoxStyle(bool sender, context) {
@@ -62,9 +65,20 @@ class ChatScreen extends StatelessWidget {
     }
   }
 
-  getImg(content) {
-    return Container(
-      child: content,
+  getImg(content, context) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (context)=>NextPage(content),
+
+        ),);
+      },
+      child: Container(
+        constraints:
+            BoxConstraints(minWidth: MediaQuery.of(context).size.width / 1.6),
+        child: content,
+      ),
     );
   }
 
@@ -163,7 +177,7 @@ class ChatScreen extends StatelessWidget {
                             ? getText(
                                 vm.messages[index]["content"],
                               )
-                            : getImg(vm.messages[index]["content"]),
+                            : getImg(vm.messages[index]["content"], context),
                       ),
                     ),
                   ),
