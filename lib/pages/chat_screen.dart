@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:chattest/styles/text_field_style.dart';
 import 'package:chattest/view_models/display_vm.dart';
@@ -19,60 +20,48 @@ class ChatScreen extends StatelessWidget {
   }
 
   getText(text) {
-    String textContent = text.replaceAll("\n", " ").toString();
-    List<String> stringList = textContent.split(' ');
-    int index = stringList.indexWhere(
-      (note) => note.startsWith('http'),
-    );
-    List<String> preString = [];
-    List<String> postString = [];
-    String pre = "";
-    String post = "";
-    if (index != -1) {
-      for (int i = 0; i < index; i++) {
-        preString.add(stringList[i]);
-      }
-      preString.add("\n");
-      pre = preString.join(" ");
-      postString.add("\n");
-      for (int i = index + 1; i < stringList.length; i++) {
-        postString.add(stringList[i]);
-      }
-      post = postString.join(" ");
-
-      return RichText(
-          text: TextSpan(
-        style: TextStyle(color: Colors.black),
-        children: [
-          TextSpan(text: pre),
-          TextSpan(
+    List<String> stringList = text.split("\n");
+    List all = stringList.map((part) {
+      List<String> subList = part.split(" ");
+      List subAll = subList.map((each) {
+        if (each.startsWith("http") && each.contains("://")) {
+          return TextSpan(
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                launch(
-                  stringList[index],
-                );
+                launch(each);
               },
-            text: stringList[index],
+            text: " $each",
             style: TextStyle(
               color: Colors.blue,
             ),
-          ),
-          TextSpan(text: post),
-        ],
-      ));
-    } else {
-      return Text(text);
-    }
+          );
+        } else if (each == "") {
+          return TextSpan(text: " ");
+        }
+        return TextSpan(text:" $each");
+      }).toList();
+      return RichText(
+        text: TextSpan(style: TextStyle(color: Colors.black), children: subAll),
+      );
+    }).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: all,
+    );
+    
   }
 
   getImg(content, context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-          fullscreenDialog: true,
-          builder: (context)=>NextPage(content),
-
-        ),);
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => NextPage(content),
+          ),
+        );
       },
       child: Container(
         constraints:
