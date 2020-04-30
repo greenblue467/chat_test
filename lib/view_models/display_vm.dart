@@ -11,26 +11,32 @@ class DisplayVM with ChangeNotifier {
   File image;
 
   Future getImage(val, context) async {
+
     var img = await ImagePicker.pickImage(source: ImageSource.gallery);
-    image = img;
-    /*FadeInImage(
+    if(img==null){
+      Navigator.of(context).pop();
+    }else{
+      image = img;
+      /*FadeInImage(
       image: FileImage(image),
       placeholder: AssetImage('images/not_found.png'),
       fit: BoxFit.cover,
     )*/
-    setMessages(
-      2,
-      val,
-      image,
-    );
+      setMessages(
+        2,
+        val,
+        image,
+      );
 
-    /*
+      /*
       Image.file(
         image,
         fit: BoxFit.cover,
       ),*/
 
-    setScroll(context);
+      setScroll(context);
+    }
+
   }
 
   void setMessages(int type, bool val, var text) {

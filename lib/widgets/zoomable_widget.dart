@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
+//import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
+import 'matrix_gesture.dart';
 
 class ZoomableWidget extends StatefulWidget {
   final Widget child;
