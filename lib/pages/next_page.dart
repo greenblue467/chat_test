@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zoom_widget/zoom_widget.dart';
+import '../widgets/zoomable_widget.dart';
 
 class NextPage extends StatelessWidget {
   final content;
@@ -13,17 +13,22 @@ class NextPage extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
       backgroundColor: Colors.black,
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          child: Zoom(
-            initZoom: 0.0,
-            width: 1800,
-            height: 1800,
-            backgroundColor: Colors.black,
-            child: Container(
-              child: content,
+      body: ZoomableWidget(
+        child: Center(
+          child: Container(
+            child: Image.file(content),
+            /*
+            width: MediaQuery.of(context).size.width,
+            child: Zoom(
+              initZoom: 0.0,
+              width: 1800,
+              height: 1800,
+              backgroundColor: Colors.black,
+              child: Container(
+                child: content,
+              ),
             ),
+          */
           ),
         ),
       ),

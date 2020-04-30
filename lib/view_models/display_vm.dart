@@ -13,14 +13,15 @@ class DisplayVM with ChangeNotifier {
   Future getImage(val, context) async {
     var img = await ImagePicker.pickImage(source: ImageSource.gallery);
     image = img;
+    /*FadeInImage(
+      image: FileImage(image),
+      placeholder: AssetImage('images/not_found.png'),
+      fit: BoxFit.cover,
+    )*/
     setMessages(
       2,
       val,
-      FadeInImage(
-        image: FileImage(image),
-        placeholder: AssetImage('images/not_found.png'),
-        fit: BoxFit.cover,
-      ),
+      image,
     );
 
     /*

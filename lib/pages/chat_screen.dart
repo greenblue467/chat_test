@@ -81,7 +81,11 @@ class ChatScreen extends StatelessWidget {
       child: Container(
         constraints:
             BoxConstraints(minWidth: MediaQuery.of(context).size.width / 1.6),
-        child: content,
+        child: FadeInImage(
+          image: FileImage(content),
+          placeholder: AssetImage('images/not_found.png'),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
