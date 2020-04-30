@@ -35,10 +35,26 @@ class ChatScreen extends StatelessWidget {
               color: Colors.blue,
             ),
           );
+        } else if (each.contains("http") && each.contains("://")) {
+          String prev = each.split("http")[0];
+          String post = each.split("http")[1];
+          TextSpan postText = TextSpan(
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launch("http$post");
+              },
+            text: "http$post",
+            style: TextStyle(
+              color: Colors.blue,
+            ),
+          );
+          TextSpan prevText = TextSpan(text: prev);
+          List<TextSpan> styledText=[prevText,postText];
+          return TextSpan(children: styledText);
         } else if (each == "") {
           return TextSpan(text: " ");
         }
-        return TextSpan(text:" $each");
+        return TextSpan(text: " $each");
       }).toList();
       return RichText(
         text: TextSpan(style: TextStyle(color: Colors.black), children: subAll),
@@ -49,7 +65,6 @@ class ChatScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: all,
     );
-    
   }
 
   getImg(content, context) {
