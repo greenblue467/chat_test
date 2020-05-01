@@ -11,12 +11,14 @@ class DisplayVM with ChangeNotifier {
   File image;
 
   Future getImage(val, context) async {
-
     var img = await ImagePicker.pickImage(source: ImageSource.gallery);
     if(img==null){
       Navigator.of(context).pop();
     }else{
       image = img;
+      //print(image.readAsBytesSync());
+      //print(image.path);
+      //print(image.path.split("/").last);
       /*FadeInImage(
       image: FileImage(image),
       placeholder: AssetImage('images/not_found.png'),
