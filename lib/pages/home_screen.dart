@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen>
       end: Size(1000, 1000),
     ).animate(
       CurvedAnimation(parent: _myAnimateControl, curve: Curves.easeInOut),
-    );
+    );//也可以直接在_myAnimateControl做監聽addListener，但是_myAnimateControl的變化較少，無法設定動畫曲線
     _opaAni = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _myAnimateControl, curve: Curves.easeInOut),);
     /*_sizeAni.addListener(
