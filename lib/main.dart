@@ -1,4 +1,5 @@
-import 'package:chattest/pages/chat_screen.dart';
+import 'package:chattest/pages/home_screen.dart';
+import 'package:chattest/pages/welcome.dart';
 import 'package:chattest/view_models/display_vm.dart';
 import 'package:chattest/view_models/text_vm.dart';
 import 'package:chattest/view_models/title_vm.dart';
@@ -10,6 +11,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
             title: TextStyle(color: Colors.white),
           ),
         ),
-        home: ChatScreen(),
+        home: Welcome(),
       ),
     );
   }

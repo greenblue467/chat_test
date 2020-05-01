@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 InputDecoration inputStyle(focusBoolean) {
   return InputDecoration(
@@ -63,4 +64,45 @@ BoxDecoration boxStyle2(context) {
     ],
   );
 
+}
+
+Shimmer shimmerStyle(){
+  return Shimmer.fromColors(
+    baseColor: Colors.grey[300],
+    highlightColor: Colors.grey[100],
+    child: Container(
+      margin: EdgeInsets.only(bottom: 30.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            height: 100.0,
+            width: 200.0,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 20.0,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                height: 20.0,
+                width: 100.0,
+                color: Colors.white,
+              ),
+              SizedBox(height: 10.0,),
+              Container(
+                height: 20.0,
+                width: 50.0,
+                color: Colors.white,
+              )
+            ],
+          ),
+
+        ],
+      ),
+    ),
+  );
 }

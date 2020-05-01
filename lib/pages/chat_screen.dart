@@ -1,20 +1,19 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:chattest/styles/text_field_style.dart';
 import 'package:chattest/view_models/display_vm.dart';
 import 'package:chattest/view_models/text_vm.dart';
-import 'package:chattest/view_models/title_vm.dart';
 import 'package:chattest/widgets/my_text_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'next_page.dart';
 
 class ChatScreen extends StatelessWidget {
+  final controlA;
+
+  ChatScreen(this.controlA);
+
   BoxDecoration getBoxStyle(bool sender, context) {
     return sender ? boxStyle1(context) : boxStyle2(context);
   }
@@ -49,7 +48,7 @@ class ChatScreen extends StatelessWidget {
             ),
           );
           TextSpan prevText = TextSpan(text: prev);
-          List<TextSpan> styledText=[prevText,postText];
+          List<TextSpan> styledText = [prevText, postText];
           return TextSpan(children: styledText);
         } else if (each == "") {
           return TextSpan(text: " ");
@@ -85,6 +84,7 @@ class ChatScreen extends StatelessWidget {
           image: FileImage(content),
           placeholder: AssetImage('images/not_found.png'),
           fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 100),
         ),
       ),
     );
@@ -111,6 +111,13 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        leading: GestureDetector(
+          child: Center(child: Text("back")),
+          onTap: () {
+            controlA.reverse();
+            Navigator.of(context).pop();
+          },
+        ),
         elevation: 0.0,
         title: Container(
           height: 100.0,
