@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen>
     final vm = Provider.of<DisplayVM>(context, listen: false);
     print(
         "rebuild"); //rebuild會在一開始print兩次，一次begin，一次end，若加上_sizeAni每60milliseconds監聽，就會i每60milliseconds rebuild一次整個widget，所以會print很多次rebuild...
-    //若用AnimatedBuilder 只rebuild內部的child而不是整個widget，rebuild只會在一開始print兩次
+    //若用AnimatedBuilder 只rebuild內部的child而不是整個widget，rebuild只會在一開始與結束時print
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Center(
