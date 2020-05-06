@@ -19,7 +19,7 @@ class _WelcomeState extends State<Welcome> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            height: 100.0,
+            height: 80.0,
             width: 200.0,
             color: Color(0xFFDCEDC8),
             child: Center(
@@ -39,7 +39,7 @@ class _WelcomeState extends State<Welcome> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: 20.0,
+                height: 25.0,
                 width: 100.0,
                 child: Text(
                   "Test123123123",

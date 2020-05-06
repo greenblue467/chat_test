@@ -112,7 +112,9 @@ class ChatScreen extends StatelessWidget {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         leading: GestureDetector(
-          child: Center(child: Text("back")),
+          child: Center(
+            child: Text("back"),
+          ),
           onTap: () {
             controlA.reverse();
             Navigator.of(context).pop();

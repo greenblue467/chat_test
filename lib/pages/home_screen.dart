@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen>
                       child: FadeTransition(
                         opacity:_opaAni,
                         child: Text(
-                          "Welcome",
+                          "下一頁",
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
